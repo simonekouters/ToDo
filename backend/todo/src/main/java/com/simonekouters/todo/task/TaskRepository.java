@@ -1,0 +1,6 @@
+package com.simonekouters.todo.task;
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface TaskRepository extends CrudRepository<Task, Long> {
+}
