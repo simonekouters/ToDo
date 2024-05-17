@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
+@CrossOrigin(origins = "${FRONTEND_ORIGIN}")
 @RequiredArgsConstructor
 @Component
 @RestController
@@ -35,18 +38,16 @@ public class TaskController {
         return ResponseEntity.created(locationOfNewTask).body(newTask);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TaskDto> getTask(@PathVariable Long id) {
-        var possiblyExistingTask = taskRepository.findById(id);
-        if (possiblyExistingTask.isEmpty()) {
-            throw new NotFoundException();
-        }
-        Task task = possiblyExistingTask.get();
-        return ResponseEntity.ok(TaskDto.from(task));
+    @GetMapping
+    public List<TaskDto> getAllTasks() {
+        Iterable<Task> tasks = taskRepository.findAll();
+        List<TaskDto> taskDtos = new ArrayList<>();
+        tasks.forEach(task -> taskDtos.add(TaskDto.from(task)));
+        return taskDtos;
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<TaskDto> updateTask(@PathVariable Long id, @RequestBody PatchTaskDto patchTaskDto) {
+    public TaskDto updateTask(@PathVariable Long id, @RequestBody PatchTaskDto patchTaskDto) {
         var possiblyExistingTask = taskRepository.findById(id);
         if (possiblyExistingTask.isEmpty()) {
             throw new NotFoundException();
@@ -64,7 +65,7 @@ public class TaskController {
         }
 
         taskRepository.save(task);
-        return ResponseEntity.ok(TaskDto.from(task));
+        return TaskDto.from(task);
     }
 
     @DeleteMapping("/{id}")
