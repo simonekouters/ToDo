@@ -1,0 +1,23 @@
+.todo-form {
+    width: 100%;
+    display: flex;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.todo-form input {
+    width: 90%;
+    padding: 5px;
+    border-style: none;
+}
+
+.todo-form input:focus {
+    outline-style: none;
+}
+
+.todo-form button {
+    border-style: none;
+    background-color: rgb(99, 198, 0);
+    color: white;
+}
+

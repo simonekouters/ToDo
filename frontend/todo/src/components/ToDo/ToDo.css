@@ -1,0 +1,25 @@
+.task-container {
+    background-color: rgb(204, 204, 204);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.task-container p {
+    flex: 1;
+}
+
+.task-container input[type='checkbox'] {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
+.task-container button {
+    background-color: blue;
+    color: white;
+    border-style: none;
+}
