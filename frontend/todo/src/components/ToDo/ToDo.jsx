@@ -31,6 +31,7 @@ function Task({ todo, todos, setTodos }) {
     <div className="task-container">
       <input type="checkbox" checked={todo.done} onChange={() => handleCheckOff(todo)} />
       <p>{todo.text}</p>
+      <p>{todo.index}</p>
       <button onClick={() => handleDelete(todo)}>x</button>
     </div>
   )
