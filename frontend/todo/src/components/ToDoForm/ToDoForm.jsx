@@ -32,6 +32,7 @@ function ToDoForm({ todos, setTodos }) {
         placeholder="Enter a task" 
         value={todo.text} 
         onChange={handleInputChange} 
+        spellCheck="false"
         autoFocus
         />
       <button>+</button>

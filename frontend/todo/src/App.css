@@ -2,10 +2,15 @@
     margin: 0;
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
+    color: #27187E;
 }
 
 .todo-container {
     display: flex;
     justify-content: center;
     margin-top: 50px;
-  }
+}
+
+.todo-container h1 {
+    color: #AEB8FE;
+}

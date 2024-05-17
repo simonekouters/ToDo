@@ -1,15 +1,7 @@
 .list-container {
-    width: 50%;
-    background-color: rgb(140, 140, 140);
-    padding: 15px;
-}
-
-button {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    cursor: pointer;
+    width: 25%;
+    background-color: #27187E;
+    padding: 20px;
 }
 
 ul {

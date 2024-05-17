@@ -1,15 +1,23 @@
 .task-container {
-    background-color: rgb(204, 204, 204);
+    background-color: white;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 7px;
     cursor: pointer;
+    padding-bottom: 7px;
+    padding-top: 7px;
 }
 
 .task-container p {
-    flex: 1;
+    cursor: text; 
+    margin-left: 5px; 
+}
+
+.checkbox-and-text {
+    display: flex;
+    align-items: center;
 }
 
 .task-container input[type='checkbox'] {
@@ -17,9 +25,66 @@
     margin-right: 5px;
 }
 
+.task-container input[type='text'] {
+    width: 75%;
+    background-color: white;
+    border: solid 2px #AEB8FE;
+    color: #27187E;
+    font-size: medium;
+    padding-left: 5px;
+}
+
+.task-container input[type='text']:focus {
+    outline: none;
+}
+
+.check-off-box {
+    appearance: none;
+    height: 18px;
+    width: 18px;
+    background-color: #AEB8FE;
+    border-radius: 0;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.check-off-box:after {
+    font-family: "Font Awesome 6 Free";
+    content: "\f00c";
+    font-weight: 900;
+    font-size: 15px;
+    color: white;
+    display: none;
+}
+
+.check-off-box:checked {
+    background-color: #758BFD;
+}
+
+.check-off-box:checked + .task {
+    text-decoration: line-through;
+}
+
+.check-off-box:checked:after {
+    display: block;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #AEB8FE;
+}
+
 
 .task-container button {
-    background-color: blue;
+    background-color: #FF8600;
     color: white;
     border-style: none;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
+    font-size: medium;
+    margin-right: 5px;
 }

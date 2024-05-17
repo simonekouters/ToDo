@@ -65,7 +65,7 @@ function Task({ todo, todos, setTodos }) {
             type="text" 
             value={editedText}
             onChange={handleInputChange} 
-            onBlur={() => handleSave}
+            onBlur={handleSave}
             onKeyDown={e => e.key === `Enter` ? handleSave() : ''}
             spellCheck="false"
             autoFocus

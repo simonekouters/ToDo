@@ -1,14 +1,15 @@
 .todo-form {
     width: 100%;
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     margin-top: 10px;
 }
 
 .todo-form input {
-    width: 90%;
+    width: 100%;
     padding: 5px;
     border-style: none;
+    font-size: medium;
 }
 
 .todo-form input:focus {
@@ -17,7 +18,18 @@
 
 .todo-form button {
     border-style: none;
-    background-color: rgb(99, 198, 0);
+    background-color: #758BFD;
     color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+    cursor: pointer;
+    font-size: large;
+}
+
+.todo-form input::placeholder {
+    color: #AEB8FE;
+    font-size: medium;
 }
 
