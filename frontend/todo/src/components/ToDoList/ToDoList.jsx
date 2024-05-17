@@ -10,11 +10,10 @@ function ToDoList() {
   const [todos, setTodos] = useState([]);
   const API_URL = "http://localhost:8080/api/v1/tasks";
 
-  const sortedTodos = todos.slice().sort((a, b) => Number(a.order) - Number(b.order));
+  const sortedTodos = todos.slice().sort((a, b) => Number(a.index) - Number(b.index));
 
   useEffect(() => {
     axios(API_URL).then((response) => {
-      console.log("Response from API:", response.data);
       let newTodos = response.data.map((todo) => {
         const { id, index, text, enabled, done } = todo;
         return { id, index, text, enabled, done };
