@@ -1,35 +1,41 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import './ToDoForm.css';
 
-function ToDoForm() {
-  const [todo, setTodo] = useState("");
-  const [todos, setTodos] = useState([]);
+function ToDoForm({ todos, setTodos }) {
+  const API_URL = "http://localhost:8080/api/v1/tasks";
+  const [todo, setTodo] = useState({text: ""});
 
   function handleInputChange(e) {
-    setTodo(e.target.value);
+    setTodo({...todo, text: e.target.value});
   }
 
   function handleAdd(e) {
     e.preventDefault(); 
-    if (!todo.trim()) return;
-    setTodos(prevTodos => [...prevTodos, todo]);
-    setTodo("");
+    if (!todo.text.trim()) return;
+
+    axios.post(API_URL, { id: todo.id, text: todo.text, index: todos.length })
+    .then((response) => {
+      const newTask = response.data;
+      setTodos([...todos, newTask]);
+      setTodo({text: "", done: false, index: todos.length});
+    })
+    .catch((error) => {
+      console.error("Error adding task: ", error);
+    })
   }
 
   return (
-    <div className="form-container">
-      <form action="submit" onSubmit={handleAdd}>
-        <input type="text" placeholder="Enter a task" value={todo} onChange={handleInputChange}/>
-        <button>+</button>
-      </form>
-
-      {/* dit moet in todolist component: */}
-      
-      <ul>
-        {todos.map((todo, index) => (
-          <li key={index}>{todo}</li>
-        ))}
-      </ul>
-    </div>
+    <form className="todo-form" action="submit" onSubmit={handleAdd}>
+      <input 
+        type="text" 
+        placeholder="Enter a task" 
+        value={todo.text} 
+        onChange={handleInputChange} 
+        autoFocus
+        />
+      <button>+</button>
+    </form>
   );
 }
 
