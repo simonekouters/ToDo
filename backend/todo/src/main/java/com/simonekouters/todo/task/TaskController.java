@@ -40,10 +40,8 @@ public class TaskController {
 
     @GetMapping
     public List<TaskDto> getAllTasks() {
-        Iterable<Task> tasks = taskRepository.findAll();
-        List<TaskDto> taskDtos = new ArrayList<>();
-        tasks.forEach(task -> taskDtos.add(TaskDto.from(task)));
-        return taskDtos;
+        List<Task> tasks = taskRepository.findByEnabledTrue();
+        return tasks.stream().map(TaskDto::from).toList();
     }
 
     @PatchMapping("/{id}")
