@@ -10,19 +10,19 @@ function ToDoForm({ todos, setTodos }) {
     setTodo({...todo, text: e.target.value});
   }
 
-  function handleAdd(e) {
-    e.preventDefault(); 
-    if (!todo.text.trim()) return;
-
-    axios.post(API_URL, { id: todo.id, text: todo.text, index: todos.length })
-    .then((response) => {
-      const newTask = response.data;
+  async function handleAdd(e) {
+    e.preventDefault();
+    if (!todo.text.trim()) {
+      return;
+    }
+    try {
+      const response = await axios.post(API_URL, { text: todo.text, index: todos.length });
+      const newTask = await response.data;
       setTodos([...todos, newTask]);
       setTodo({text: "", done: false, index: todos.length});
-    })
-    .catch((error) => {
-      console.error("Error adding task: ", error);
-    })
+    } catch (error) {
+      console.error("Error adding task: ", error)
+    }
   }
 
   return (

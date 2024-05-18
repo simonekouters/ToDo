@@ -3,48 +3,64 @@ import axios from 'axios';
 import './ToDo.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 
-function Task({ todo, todos, setTodos }) {
+function ToDo({ todo, todos, setTodos }) {
   const API_URL = "http://localhost:8080/api/v1/tasks";
   const [editedText, setEditedText] = useState(todo.text);
   const [isEditing, setIsEditing] = useState(false);
 
-  function handleDelete(toDoToDelete) {
-    axios.delete(`${API_URL}/${toDoToDelete.id}`).then(() => {
-      const updatedTodos = todos.filter((task) => task != toDoToDelete);
-      updatedTodos.forEach((task) => {
-        if (task.index > toDoToDelete.index) task.index--;
-        axios.patch(`${API_URL}/${task.id}`, { index: task.index })
+  async function handleDelete(toDoToDelete) {
+    try {
+      await axios.delete(`${API_URL}/${toDoToDelete.id}`);
+      let updatedTodos = todos.filter((task) => task !== toDoToDelete);
+  
+      const promises = updatedTodos.map((task) => {
+        if (task.index > toDoToDelete.index) {
+          task.index--;
+          return axios.patch(`${API_URL}/${task.id}`, {index: task.index});
+        }
       });
+      await Promise.all(promises);
+  
       setTodos(updatedTodos);
-    });
+    } catch (error) {
+      console.error("Error deleting task: ", error);
+    }
   }
-
-  function handleCheckOff(todo) {
-    const newArray = todos.map((task) => {
-      if (task !== todo) {
-        return task;
-      }
-      let checked = !todo.done;
-      axios.patch(`${API_URL}/${todo.id}`, { done: checked });
-      return { ...todo, done: checked };
-    });
-    setTodos(newArray);
+  
+  async function handleCheckOff(todoToCheck) {
+    try {
+      const updatedTodos = todos.map((task) => {
+        if (task !== todoToCheck) return task;
+        let checked = !todoToCheck.done;
+        return {...task, done: checked};
+      });
+      
+      await axios.patch(`${API_URL}/${todoToCheck.id}`, { done: !todoToCheck.done });
+      setTodos(updatedTodos);
+    } catch (error) {
+      console.error("Error updating tasks: ", error);
+    }
   }
 
   function handleInputChange(e) {
     setEditedText(e.target.value);
   }
 
-  function handleSave() {
+  async function handleSave() {
     const updatedTodos = todos.map(todoToUpdate => {
       if (todoToUpdate !== todo) {
         return todoToUpdate;
       }
-      axios.patch(`${API_URL}/${todoToUpdate.id}`, { text: editedText });
       return { ...todo, text: editedText };
     });
-    setTodos(updatedTodos);
-    setIsEditing(false);
+    
+    try {
+      await axios.patch(`${API_URL}/${todo.id}`, { text: editedText });
+      setTodos(updatedTodos);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating tasks: ", error);
+    }
   }
 
   function handleEdit() {
@@ -79,4 +95,4 @@ function Task({ todo, todos, setTodos }) {
   )
 }
 
-export default Task;
+export default ToDo;

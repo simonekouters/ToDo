@@ -13,24 +13,30 @@ function ToDoList() {
   const sortedTodos = todos.slice().sort((a, b) => Number(a.index) - Number(b.index));
 
   useEffect(() => {
-    axios(API_URL).then((response) => {
-      let newTodos = response.data.map((todo) => {
-        const { id, index, text, enabled, done } = todo;
-        return { id, index, text, enabled, done };
-      });
-      setTodos(newTodos);
-    })
-      .catch((error) => {
-        console.error("Error fetching the tasks: ", error);
-      });
+    const getData = async () => {
+      try {
+        const response = await axios(API_URL);
+        const data = await response.data;
+        setTodos(data);
+      } catch (error) {
+        console.error("Error fetching tasks: ", error);
+      }
+    }
+    getData();
   }, []);
 
-  function handleReorder(newTodos) {
-    newTodos.forEach((todo, index) => {
+  async function handleReorder(newTodos) {
+    const promises = newTodos.map((todo, index) => {
       todo.index = index;
-      axios.patch(`${API_URL}/${todo.id}`, todo);
+      return axios.patch(`${API_URL}/${todo.id}`, { index: todo.index });
     });
-    setTodos(newTodos);
+
+    try {
+      await Promise.all(promises);
+      setTodos(newTodos);
+    } catch (error) {
+      console.error("Error updating tasks: ", error);
+    }
   }
 
   return (
