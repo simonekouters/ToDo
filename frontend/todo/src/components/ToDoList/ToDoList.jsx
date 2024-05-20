@@ -16,7 +16,7 @@ function ToDoList() {
     const getData = async () => {
       try {
         const response = await axios(API_URL);
-        const data = await response.data;
+        const data = response.data;
         setTodos(data);
       } catch (error) {
         console.error("Error fetching tasks: ", error);
