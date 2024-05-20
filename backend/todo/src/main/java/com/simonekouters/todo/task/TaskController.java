@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "${FRONTEND_ORIGIN}")
@@ -34,7 +33,7 @@ public class TaskController {
         }
         Task newTask = new Task(postTaskDto.text(), postTaskDto.index());
         taskRepository.save(newTask);
-        URI locationOfNewTask = ucb.path("items/{id}").buildAndExpand(newTask.getId()).toUri();
+        URI locationOfNewTask = ucb.path("/api/v1/tasks/{id}").buildAndExpand(newTask.getId()).toUri();
         return ResponseEntity.created(locationOfNewTask).body(newTask);
     }
 
