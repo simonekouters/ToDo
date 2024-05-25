@@ -24,7 +24,7 @@ import java.util.List;
 public class TaskController {
     private final TaskRepository taskRepository;
     @PostMapping
-    public ResponseEntity<Task> addTask(@RequestBody PostTaskDto postTaskDto, UriComponentsBuilder ucb) {
+    public ResponseEntity<TaskDto> addTask(@RequestBody PostTaskDto postTaskDto, UriComponentsBuilder ucb) {
         if (postTaskDto.text() == null) {
             throw new BadRequestException("Text can't be null");
         }
@@ -34,7 +34,7 @@ public class TaskController {
         Task newTask = new Task(postTaskDto.text(), postTaskDto.index());
         taskRepository.save(newTask);
         URI locationOfNewTask = ucb.path("/api/v1/tasks/{id}").buildAndExpand(newTask.getId()).toUri();
-        return ResponseEntity.created(locationOfNewTask).body(newTask);
+        return ResponseEntity.created(locationOfNewTask).body(TaskDto.from(newTask));
     }
 
     @GetMapping
